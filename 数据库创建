@@ -1,0 +1,224 @@
+/*
+SQLyog Enterprise v12.08 (64 bit)
+MySQL - 5.5.58 : Database - tnew1
+*********************************************************************
+*/
+
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`tnew1` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `tnew1`;
+
+/*Table structure for table `hibernate_sequence` */
+
+DROP TABLE IF EXISTS `hibernate_sequence`;
+
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `hibernate_sequence` */
+
+insert  into `hibernate_sequence`(`next_val`) values (29),(29),(29),(29),(29);
+
+/*Table structure for table `t_comment` */
+
+DROP TABLE IF EXISTS `t_comment`;
+
+CREATE TABLE `t_comment` (
+  `id` bigint(20) NOT NULL,
+  `admin_comment` bit(1) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
+  `news_id` bigint(20) DEFAULT NULL,
+  `parent_comment_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK6a7k00t6fuf9xfoiqukbvhq8f` (`news_id`),
+  KEY `FK4jj284r3pb7japogvo6h72q95` (`parent_comment_id`),
+  CONSTRAINT `FK4jj284r3pb7japogvo6h72q95` FOREIGN KEY (`parent_comment_id`) REFERENCES `t_comment` (`id`),
+  CONSTRAINT `FK6a7k00t6fuf9xfoiqukbvhq8f` FOREIGN KEY (`news_id`) REFERENCES `t_news` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_comment` */
+
+insert  into `t_comment`(`id`,`admin_comment`,`avatar`,`content`,`create_time`,`email`,`nickname`,`news_id`,`parent_comment_id`) values (28,'\0',NULL,'11',NULL,'111@qq.com','11',20,NULL);
+
+/*Table structure for table `t_news` */
+
+DROP TABLE IF EXISTS `t_news`;
+
+CREATE TABLE `t_news` (
+  `id` bigint(20) NOT NULL,
+  `appreciation` bit(1) NOT NULL,
+  `commentabled` bit(1) NOT NULL,
+  `content` longtext,
+  `create_time` datetime DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `first_picture` varchar(255) DEFAULT NULL,
+  `flag` varchar(255) DEFAULT NULL,
+  `published` bit(1) NOT NULL,
+  `recommend` bit(1) NOT NULL,
+  `share_statement` bit(1) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `views` int(11) DEFAULT NULL,
+  `type_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKgphr3jsxifvwnft80exmuwpt3` (`type_id`),
+  KEY `FK2tste192abqqu7pxnklbhjw8q` (`user_id`),
+  CONSTRAINT `FK2tste192abqqu7pxnklbhjw8q` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`id`),
+  CONSTRAINT `FKgphr3jsxifvwnft80exmuwpt3` FOREIGN KEY (`type_id`) REFERENCES `t_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_news` */
+
+insert  into `t_news`(`id`,`appreciation`,`commentabled`,`content`,`create_time`,`description`,`first_picture`,`flag`,`published`,`recommend`,`share_statement`,`title`,`update_time`,`views`,`type_id`,`user_id`) values (13,'\0','\0','1','2020-07-31 08:40:38','1','1','','','\0','','1','2020-07-31 08:40:38',NULL,1,1),(14,'','\0','2','2020-07-31 08:40:54','2','2','','','','','2','2020-07-31 08:40:54',NULL,1,1),(15,'\0','','3','2020-07-31 08:41:07','3','3','','','','','3','2020-07-31 08:41:07',NULL,1,1),(16,'\0','\0','5','2020-07-31 08:41:17','5','5','','','\0','\0','5','2020-07-31 08:41:17',NULL,1,1),(17,'\0','\0','11','2020-07-31 08:41:29','11','11','','','\0','\0','11','2020-07-31 08:41:29',NULL,1,1),(18,'\0','\0','12','2020-07-31 08:41:44','134','13','','','\0','\0','13','2020-07-31 08:41:44',NULL,1,1),(19,'\0','\0','123','2020-07-31 08:42:01','134','134','','','\0','\0','134','2020-07-31 08:42:01',NULL,1,1),(20,'\0','','73','2020-07-31 08:42:27','77','77','','','','\0','73','2020-07-31 09:33:57',NULL,1,1),(21,'\0','','4','2020-07-31 08:44:02','3','3','','','','','43','2020-07-31 08:44:02',NULL,1,1);
+
+/*Table structure for table `t_news_tags` */
+
+DROP TABLE IF EXISTS `t_news_tags`;
+
+CREATE TABLE `t_news_tags` (
+  `news_list_id` bigint(20) NOT NULL,
+  `tags_id` bigint(20) NOT NULL,
+  KEY `FKg8oxfb5s0a3p7sjpho5bra0kb` (`tags_id`),
+  KEY `FKjop7qu9ac6o4lb77j5m70apf1` (`news_list_id`),
+  CONSTRAINT `FKjop7qu9ac6o4lb77j5m70apf1` FOREIGN KEY (`news_list_id`) REFERENCES `t_news` (`id`),
+  CONSTRAINT `FKg8oxfb5s0a3p7sjpho5bra0kb` FOREIGN KEY (`tags_id`) REFERENCES `t_tag` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_news_tags` */
+
+insert  into `t_news_tags`(`news_list_id`,`tags_id`) values (13,7),(13,8),(14,8),(14,9),(15,7),(15,8),(16,7),(16,8),(17,7),(17,8),(18,8),(18,9),(19,7),(19,8),(21,7),(21,8),(20,7),(20,8);
+
+/*Table structure for table `t_permission` */
+
+DROP TABLE IF EXISTS `t_permission`;
+
+CREATE TABLE `t_permission` (
+  `id` varchar(255) NOT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_permission` */
+
+insert  into `t_permission`(`id`,`code`,`description`,`name`) values ('1','user-add',NULL,'添加用户'),('2','user-find',NULL,'查询用户'),('3','user-update',NULL,'更新用户'),('4','user-delete',NULL,'删除用户');
+
+/*Table structure for table `t_role` */
+
+DROP TABLE IF EXISTS `t_role`;
+
+CREATE TABLE `t_role` (
+  `id` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_role` */
+
+insert  into `t_role`(`id`,`description`,`name`) values ('1','admin','admin'),('2','user','user');
+
+/*Table structure for table `t_role_permissions` */
+
+DROP TABLE IF EXISTS `t_role_permissions`;
+
+CREATE TABLE `t_role_permissions` (
+  `role_id` varchar(255) NOT NULL,
+  `permissions_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`role_id`,`permissions_id`),
+  KEY `FKgrjcs46st9a08j4c5kwfapjjf` (`permissions_id`),
+  CONSTRAINT `FK88a3gakq7iwxq21x8i2i20r44` FOREIGN KEY (`role_id`) REFERENCES `t_role` (`id`),
+  CONSTRAINT `FKgrjcs46st9a08j4c5kwfapjjf` FOREIGN KEY (`permissions_id`) REFERENCES `t_permission` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_role_permissions` */
+
+insert  into `t_role_permissions`(`role_id`,`permissions_id`) values ('1','1'),('1','2'),('2','2'),('1','3'),('1','4');
+
+/*Table structure for table `t_tag` */
+
+DROP TABLE IF EXISTS `t_tag`;
+
+CREATE TABLE `t_tag` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_tag` */
+
+insert  into `t_tag`(`id`,`name`) values (7,'武汉'),(8,'宁波'),(9,'盐城'),(10,'上海'),(11,'北京'),(12,'广州');
+
+/*Table structure for table `t_type` */
+
+DROP TABLE IF EXISTS `t_type`;
+
+CREATE TABLE `t_type` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_type` */
+
+insert  into `t_type`(`id`,`name`) values (1,'综艺'),(2,'动漫'),(3,'电影'),(4,'电视剧'),(5,'生活'),(6,'学习');
+
+/*Table structure for table `t_user` */
+
+DROP TABLE IF EXISTS `t_user`;
+
+CREATE TABLE `t_user` (
+  `id` bigint(20) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_user` */
+
+insert  into `t_user`(`id`,`avatar`,`create_time`,`email`,`nickname`,`password`,`type`,`update_time`,`username`) values (1,'1','2020-07-31 08:37:15','1','1','202cb962ac59075b964b07152d234b70',1,'2020-07-31 08:37:20','1'),(2,'2','2020-07-31 11:17:40','2','2','202cb962ac59075b964b07152d234b70',2,'2020-07-31 11:17:48','2');
+
+/*Table structure for table `t_user_roles` */
+
+DROP TABLE IF EXISTS `t_user_roles`;
+
+CREATE TABLE `t_user_roles` (
+  `users_id` bigint(20) NOT NULL,
+  `roles_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`users_id`,`roles_id`),
+  KEY `FKj47yp3hhtsoajht9793tbdrp4` (`roles_id`),
+  CONSTRAINT `FKp67oqi40xgs7j7ad5xqaxx857` FOREIGN KEY (`users_id`) REFERENCES `t_user` (`id`),
+  CONSTRAINT `FKj47yp3hhtsoajht9793tbdrp4` FOREIGN KEY (`roles_id`) REFERENCES `t_role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_user_roles` */
+
+insert  into `t_user_roles`(`users_id`,`roles_id`) values (1,'1'),(2,'2');
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
